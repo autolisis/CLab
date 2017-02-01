@@ -9,6 +9,8 @@ module pa16(a,b,cin,s,cout);
 	assign p=a^b;
 	assign g=a&b;
 	assign a=g+p;
+
+	dotm()
 	
 	
 	
