@@ -4,7 +4,11 @@ module clock(enable, clk);
 
 	reg clk;
 
-	always
-		#5 clk = !clk;
-endmodule
+	initial begin
+		clk=1;
+	end
 
+	always begin
+		#5 clk = !clk;
+	end
+endmodule

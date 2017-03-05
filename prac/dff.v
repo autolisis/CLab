@@ -1,8 +1,14 @@
-module dff(d, clk, q);
-	input d, clk;
+module dff(d, clk, reset, q);
+	input d, clk, reset;
 	output q;
 
 	reg q;
-	always @(posedge(clk))
-		q<=d;
+	always @(posedge(clk)) begin
+		if (reset) begin
+			q<=0;
+		end
+		else begin
+			q<=d;
+		end
+	end
 endmodule
