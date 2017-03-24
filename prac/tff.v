@@ -1,7 +1,7 @@
 module tff(t, reset, q);
 	input t, reset;
 	output q;
-	
+
 	reg q;
 
 	always @(t) begin
