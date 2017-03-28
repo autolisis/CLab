@@ -46,14 +46,13 @@ module multi(a,b,out,clk);
     pgen a31(a,b[30],x[30]);
     pgen a32(a,b[31],x[31]);
 
-// buffer assign
     assign p[0][31:0]=x[0];
     assign p[1][32:1]=x[1];
     assign p[2][33:2]=x[2];
     assign p[3][34:3]=x[3];
     assign p[4][35:4]=x[4];
     assign p[5][36:5]=x[5];
-    assign p[6][37:6]=x[6]; 	
+    assign p[6][37:6]=x[6];
     assign p[7][38:7]=x[7];
     assign p[8][39:8]=x[8];
     assign p[9][40:9]=x[9];
@@ -69,7 +68,7 @@ module multi(a,b,out,clk);
     assign p[19][50:19]=x[19];
     assign p[20][51:20]=x[20];
     assign p[21][52:21]=x[21];
-    assign p[22][53:22]=x[22]; 	
+    assign p[22][53:22]=x[22];
     assign p[23][54:23]=x[23];
     assign p[24][55:24]=x[24];
     assign p[25][56:25]=x[25];
@@ -77,10 +76,9 @@ module multi(a,b,out,clk);
     assign p[27][58:27]=x[27];
     assign p[28][59:28]=x[28];
     assign p[29][60:29]=x[29];
-    assign p[30][61:30]=x[30]; 	
+    assign p[30][61:30]=x[30];
     assign p[31][62:31]=x[31];
 
-// LSB assign
     assign p[0][62:32]=0;
     assign p[1][62:33]=0;
     assign p[2][62:34]=0;
@@ -113,7 +111,6 @@ module multi(a,b,out,clk);
     assign p[29][62:61]=0;
     assign p[30][62:62]=0;
 
-// MSB assign
     assign p[1][0:0]=0;
     assign p[2][1:0]=0;
     assign p[3][2:0]=0;
@@ -147,7 +144,6 @@ module multi(a,b,out,clk);
     assign p[31][30:0]=0;
 
 
-    //level 1
     wire [63:0]p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12,p13,p14,p15,p16,p17,p18,p19,p20,p21,p22;
     wire [62:0]P1,P2;
 
@@ -170,7 +166,6 @@ module multi(a,b,out,clk);
     assign p21[62:0]=P1;
     assign p22[62:0]=P2;
 
-    //level 2
     wire [63:0]q1,q2,q3,q4,q5,q6,q7,q8,q9,q10,q11,q12,q13,q14,q15;
 
     csave  l21(p1[62:0],p2[62:0],p3[62:0],q1,q2,clk);
@@ -183,7 +178,6 @@ module multi(a,b,out,clk);
 
     dff_64 d(q15,clk,p22);
 
-    //level 3
     wire [63:0]r1,r2,r3,r4,r5,r6,r7,r8,r9,r10;
 
     csave  l31(q1[62:0],q2[62:0],q3[62:0],r1,r2,clk);
@@ -192,7 +186,6 @@ module multi(a,b,out,clk);
     csave  l34(q10[62:0],q11[62:0],q12[62:0],r7,r8,clk);
     csave  l35(q13[62:0],q14[62:0],q15[62:0],r9,r10,clk);
 
-    //level 4
     wire [63:0]s1,s2,s3,s4,s5,s6,s7;
 
     csave  l41(r1[62:0],r2[62:0],r3[62:0],s1,s2,clk);
@@ -201,7 +194,6 @@ module multi(a,b,out,clk);
 
     dff_64 n(s7,clk,r10);
 
-    //level 5
     wire [63:0]t1,t2,t3,t4,t5;
 
     csave  l51(s1[62:0],s2[62:0],s3[62:0],t1,t2,clk);
@@ -209,7 +201,6 @@ module multi(a,b,out,clk);
 
     dff_64 o(t5,clk,s7);
 
-    //level 6
     wire [63:0]u1,u2,u3,u4;
 
     csave  l61(t1[62:0],t2[62:0],t3[62:0],u1,u2,clk);
@@ -217,19 +208,16 @@ module multi(a,b,out,clk);
     dff_64 k(u3,clk,t4);
     dff_64 l(u4,clk,t5);
 
-    //level 7
     wire [63:0]v1,v2,v3;
 
     csave  l71(u1[62:0],u2[62:0],u3[62:0],v1,v2,clk);
 
     dff_64 m(v3,clk,u4);
 
-    //level 8
     wire [63:0]w1,w2;
 
     csave  l81(v1[62:0],v2[62:0],v3[62:0],w1,w2,clk);
 
-    //level 9 : PA call 
     wire [63:0]mult,w11,w12,w13,w14,w15,w21,w22,w23,w24,w25;
     wire Cout,cout;
     wire [31:0]mul;
@@ -257,5 +245,4 @@ module multi(a,b,out,clk);
 
     prefix pre1(w15[63:32],w2[63:32],cout,Cout,mult[63:32],clk);
     assign out=mult;
-
 endmodule 
