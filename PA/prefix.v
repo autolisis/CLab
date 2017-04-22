@@ -1,6 +1,6 @@
 `include "dotmod.v"
 `include "cirmod.v"
-`include "piped.v"
+`include "dff.v"
 
 module prefix( x[31:0] , y[31:0] , cin , s[31:0] , cout , clk );
 	input [31:0]x,y;
@@ -17,9 +17,9 @@ module prefix( x[31:0] , y[31:0] , cin , s[31:0] , cout , clk );
 	assign gt = (x&y);
 	assign at = (g|p);
 
-	piped p11( pt , clk , p );
-	piped p12( gt , clk , g );
-	piped p13( at , clk , a );
+	dff32 p11( pt , clk , p );
+	dff32 p12( gt , clk , g );
+	dff32 p13( at , clk , a );
 
 	dotmod d11 ( g[0] ,  a[0] ,  cin ,   s1t[0] );
 	cirmod c11 ( g[2] ,  a[2] ,  g[1] ,  a[1] ,  s1t[1] ,  s12t[0] );
@@ -39,8 +39,8 @@ module prefix( x[31:0] , y[31:0] , cin , s[31:0] , cout , clk );
 	cirmod c115( g[30] , a[30] , g[29] , a[29] , s1t[15] , s12t[14] );
 
 
-	piped p21( s1t  , clk , s1  );
-	piped p22( s12t , clk , s12 );
+	dff32 p21( s1t  , clk , s1  );
+	dff32 p22( s12t , clk , s12 );
 	
 	dotmod d21 (g[1]   , a[1]    , s1[0]  , s21t[0] );
 	dotmod d22 (s1[1]  , s12[0]  , s1[0]  , s21t[1] );
@@ -61,8 +61,8 @@ module prefix( x[31:0] , y[31:0] , cin , s[31:0] , cout , clk );
 	
 	
 	
-	piped p31( s21t , clk , s21 );
-	piped p32( s22t , clk , s22 );
+	dff32 p31( s21t , clk , s21 );
+	dff32 p32( s22t , clk , s22 );
 
 	dotmod d31 (g[3]    , a[3]    , s21[1]  , s31t[0] );
 	dotmod d32 (s1[2]   , s12[1]  , s21[1]  , s31t[1] );
@@ -84,8 +84,8 @@ module prefix( x[31:0] , y[31:0] , cin , s[31:0] , cout , clk );
 	
 	
 
-	piped p41( s31t , clk , s31 );
-	piped p42( s32t , clk , s32 );
+	dff32 p41( s31t , clk , s31 );
+	dff32 p42( s32t , clk , s32 );
 	
 	dotmod d41(s21[4]  , s22[2]  , s31[3]  , s41t[0] );
 	dotmod d42(s21[5]  , s22[3]  , s31[3]  , s41t[1] );
@@ -108,8 +108,8 @@ module prefix( x[31:0] , y[31:0] , cin , s[31:0] , cout , clk );
 
 	
 
-	piped p51( s41t , clk , s41 );
-	piped p52( s42t , clk , s42 );
+	dff32 p51( s41t , clk , s41 );
+	dff32 p52( s42t , clk , s42 );
 
 	dotmod d51 (g[15]   , a[15]  , s41[7] , s51t[0]);
 	dotmod d52 (s1[8]   , s12[7] , s41[7] , s51t[1]);
@@ -132,7 +132,7 @@ module prefix( x[31:0] , y[31:0] , cin , s[31:0] , cout , clk );
 
 
 
-	piped pfin( s51t , clk , s51 );
+	dff32 pfin( s51t , clk , s51 );
 
 	assign s[0]  = cin   ^ p[0];
 	assign s[1]  = p[1]  ^ s1[0];
